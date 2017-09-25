@@ -20,6 +20,19 @@ firebase.auth().onAuthStateChanged(function(user) {
       // ...
     }
   });
+  
+  function signout()
+  {
+    firebase.auth().signOut()
+    .then(function() {
+      // Sign-out successful.
+        location = "../index.html";
+    })
+    .catch(function(error) {
+      // An error happened.
+        alert(error);
+    });
+  }
 
 function create_event_item(id, Event)
 { 

@@ -23,6 +23,20 @@ firebase.auth().onAuthStateChanged(function(user) {
       // ...
     }
   });
+  
+function signout()
+{
+  firebase.auth().signOut()
+  .then(function() {
+    // Sign-out successful.
+      location = "../index.html";
+  })
+  .catch(function(error) {
+    // An error happened.
+      alert(error);
+  });
+}
+  
 function strTOToggleCase(input)
 {
   input = input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
