@@ -118,6 +118,7 @@ function not_going(event_key)
 
 function not_sure(event_key)
 {
+  console.log("bhap");
   var user_event_status_ref = "Users/" + user_key + "/Events Statuses/"+ event_key + "/";
   var event_going_count_ref = "Events/" + event_key + "/going_count/";
   var event_not_going_count_ref = "Events/" + event_key + "/not_going_count/";
@@ -136,6 +137,9 @@ function not_sure(event_key)
       event_not_going_count = snapshot.val();
     }
   );
+  console.log(user_event_status_ref);
+  console.log(event_going_count);
+  console.log(event_not_going_count);
   
   Database.child(user_event_status_ref).once("value",
     function (snapshot)
@@ -146,7 +150,7 @@ function not_sure(event_key)
         Database.child(user_event_status_ref).remove();
         Database.child(event_going_count_ref).set(--event_going_count);
       }
-      else if (snapshot.val().status == true)
+      else if (snapshot.val().status == false)
       {
         //Not Going to Not Sure
         Database.child(user_event_status_ref).remove();
@@ -154,6 +158,7 @@ function not_sure(event_key)
       }
     }
   );
+  console.log("paa");
 }
 
 function generate_event_item_innerHTML(id, Event)
@@ -190,14 +195,20 @@ function generate_event_item_innerHTML(id, Event)
   );
 }
 
+// Database.child("Events").on("child_changed",
+//   function (snapshot)
+//   {
+//     var jumbotron = document.createElement("div");
+//     jumbotron.id = snapshot.key;
+//     jumbotron.className = "jumbotron";
+//     events_list.replaceChild(jumbotron, document.getElementById(snapshot.key));
+//     generate_event_item_innerHTML( snapshot.key, snapshot.val());
+//   }
+//);  
 Database.child("Events").on("child_changed",
-  function (snapshot)
+  function ()
   {
-    var jumbotron = document.createElement("div");
-    jumbotron.id = snapshot.key;
-    jumbotron.className = "jumbotron";
-    events_list.replaceChild(jumbotron, document.getElementById(snapshot.key));
-    generate_event_item_innerHTML( snapshot.key, snapshot.val());
+    window.location.reload(true);
   }
 ); 
 
