@@ -1,38 +1,16 @@
-var database = firebase.database().ref();
-var events_list = document.getElementById("events-list");
-
-var user_key;
-
-firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      // User is signed in.
-      var displayName = user.displayName;
-      var email = user.email;
-      var emailVerified = user.emailVerified;
-      var photoURL = user.photoURL;
-      var isAnonymous = user.isAnonymous;
-      user_key = user.uid;
-      var providerData = user.providerData;
-      // console.log(user);
-      // ...
-    } else {
-      // User is signed out.
-      // ...
-    }
-  });
-
-function signout()
+Database.child("Events").on("child_added",
+function (snapshot)
 {
-  firebase.auth().signOut()
-  .then(function() {
-    // Sign-out successful.
-      location = "../index.html";
-  })
-  .catch(function(error) {
-    // An error happened.
-      alert(error);
-  });
+  if(snapshot.val().user_uid == user_key)
+  {
+    var jumbotron = document.createElement("div");
+    jumbotron.id = snapshot.key;
+    jumbotron.className = "jumbotron";
+    events_list.appendChild(jumbotron);
+    generate_event_item_innerHTML(snapshot.key, snapshot.val());
+  }
 }
+); 
 
 //   var created_by;
 //   database.child("Users/" + user_key + "/name").once('value',
@@ -134,42 +112,3 @@ function signout()
 
   //   return jumbotron;
   // }
-
-function strTOToggleCase(input)
-{
-  input = input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
-
-  for (var i = 0; i < input.length; i++)
-  {
-      if(input.charAt(i) === " ")
-      {
-          input = input.slice(0, i + 1) + input.charAt(i + 1).toUpperCase() + input.slice(i + 2);
-      }
-      else if(input.charAt(i) === " " && input.charAt(i + 1)=== " ")
-      {
-          input = input.slice(0, i + 2) + input.charAt(i + 2).toUpperCase() + input.slice(i + 3);
-      }
-      else if(input.charAt(i) === " " && input.charAt(i + 1) === " " && input.charAt(i + 2) === " ")
-      {
-          input = input.slice(0, i + 3) + input.charAt(i + 3).toUpperCase() + input.slice(i + 4);
-      }
-  }
-  return input;
-}
-
-function create_event_item(id, Event)
-{ 
-  var jumbotron =
-  "<div class=\"jumbotron\" id=\""+ id +"\"><h3 class=\"display-5\">" + Event.name + ".</h3><p class=\"lead\"><strong>Event Description:</strong>  " + Event.description + ".</p><p class=\"lead\"><strong>Event Location:</strong> " + Event.location + ".</p><p class=\"lead\"><strong>Event Starting Date:</strong> " + Event.start_date_time.replace("T"," / ") + "</p><p class=\"lead\"><strong>Event Ending Date:</strong> " + Event.end_date_time.replace("T"," / ") + "</p><p class=\"lead\"><strong>Event Organizer:</strong> " + Event.organizer + ".</p><hr class=\"my-4\"><p class=\"lead\"><button class=\"btn btn-primary\">Going To Event <span class=\"badge badge-info\">" + Event.going_count + "</span></button>&nbsp;<button class=\"btn btn-warning\">Not Going To Event <span class=\"badge badge-info\">" + Event.not_going_count + "</span></button></p></div>";
-  return jumbotron;
-}
-
-  database.child("Events").on("child_added",
-  function (snapshot)
-  {
-    if(snapshot.val().user_uid == user_key)
-    {
-      events_list.innerHTML += create_event_item( snapshot.key, snapshot.val());
-    }
-  }
-);

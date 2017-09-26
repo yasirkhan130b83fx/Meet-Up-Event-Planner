@@ -1,4 +1,3 @@
-var database = firebase.database().ref();
 var event_name = document.getElementById("event-name");
 var event_description = document.getElementById("event-description");
 var event_location = document.getElementById("event-location");
@@ -7,36 +6,6 @@ var event_end_datetime = document.getElementById("event-end-datetime");
 var event_organizer = document.getElementById("event-organizer");
 var event_status = document.getElementsByName("event-status");
 
-var user_key;
-
-firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      // User is signed in.
-      
-      var email = user.email;
-      var emailVerified = user.emailVerified;
-      user_key = user.uid;
-      // console.log(user);
-      // ...
-    } else {
-      // User is signed out.
-      // ...
-    }
-  });
-  
-function signout()
-{
-  firebase.auth().signOut()
-  .then(function() {
-    // Sign-out successful.
-      location = "../index.html";
-  })
-  .catch(function(error) {
-    // An error happened.
-      alert(error);
-  });
-}
-  
 function strTOToggleCase(input)
 {
   input = input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();
@@ -82,11 +51,11 @@ function create_event()
   if (x == 1)
   {
     Event.going_count += 1;
-    database.child("Events").push(Event)
+    Database.child("Events").push(Event)
       .then(
         function (snapshot)
         {
-          database.child("Users/" + Event.user_uid + "/Events Statuses/"+snapshot.key).set({status: true});
+          Database.child("Users/" + Event.user_uid + "/Events Statuses/"+snapshot.key).set({status: true});
           alert("Event Created Sucessfuly!");
         }
       )
@@ -104,11 +73,11 @@ function create_event()
   else if (x == -1)
   {
     Event.not_going_count += 1;
-    database.child("Events").push(Event)
+    Database.child("Events").push(Event)
       .then(
         function (snapshot)
         {
-          database.child("Users/" + Event.user_uid + "/Events Statuses/"+snapshot.key).set({status: false});
+          Database.child("Users/" + Event.user_uid + "/Events Statuses/"+snapshot.key).set({status: false});
           alert("Event Created Sucessfuly!");
         }
       )
@@ -125,7 +94,7 @@ function create_event()
   }
   else
   {
-    database.child("Events").push(Event)
+    Database.child("Events").push(Event)
       .then(
         function()
         {
@@ -143,7 +112,4 @@ function create_event()
         }
       );
   }
-  console.log(Event);
-  console.log(x);
-
 }

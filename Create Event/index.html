@@ -13,13 +13,13 @@
     
     
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <a class="navbar-brand" href="#">Meet-Up Event Planner</a>
+        <a class="navbar-brand" href="../All Events/index.html">Meet-Up Event Planner</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="../All Events/index.html">All Events <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
@@ -33,7 +33,7 @@
             </li>
             </ul>
             <form action="../Create Event/index.html" class="form-inline mt-2 mt-md-0">
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Create New Event</button>
+              <button class="btn btn-outline-success active my-2 my-sm-0" type="submit">Create New Event</button>
             </form>
             &nbsp;
             <form action="JavaScript:void(0)" class="form-inline mt-2 mt-md-0">
@@ -113,4 +113,5 @@
   firebase.initializeApp(config);
 </script>
 
-<script src="main_code.js"></script>
+<script src="../main_code.js"></script>
+<script src="create_event.js"></script>
