@@ -1,4 +1,4 @@
-Database.child("Events").on("child_added",
+Database_Events_Ref.on("child_added",
 function (snapshot)
 {
   if(snapshot.val().user_uid == user_key)

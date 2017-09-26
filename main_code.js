@@ -1,4 +1,5 @@
 var Database = firebase.database().ref();
+var Database_Events_Ref = Database.child("Events").orderByChild("start_date_time");
 var events_list = document.getElementById("events-list");
 
 var user_key;
@@ -118,7 +119,6 @@ function not_going(event_key)
 
 function not_sure(event_key)
 {
-  console.log("bhap");
   var user_event_status_ref = "Users/" + user_key + "/Events Statuses/"+ event_key + "/";
   var event_going_count_ref = "Events/" + event_key + "/going_count/";
   var event_not_going_count_ref = "Events/" + event_key + "/not_going_count/";
@@ -137,9 +137,6 @@ function not_sure(event_key)
       event_not_going_count = snapshot.val();
     }
   );
-  console.log(user_event_status_ref);
-  console.log(event_going_count);
-  console.log(event_not_going_count);
   
   Database.child(user_event_status_ref).once("value",
     function (snapshot)
@@ -158,7 +155,6 @@ function not_sure(event_key)
       }
     }
   );
-  console.log("paa");
 }
 
 function generate_event_item_innerHTML(id, Event)
@@ -205,14 +201,14 @@ function generate_event_item_innerHTML(id, Event)
 //     generate_event_item_innerHTML( snapshot.key, snapshot.val());
 //   }
 //);  
-Database.child("Events").on("child_changed",
+Database_Events_Ref.on("child_changed",
   function ()
   {
     window.location.reload(true);
   }
 ); 
 
-Database.child("Events").on("child_removed",
+Database_Events_Ref.on("child_removed",
   function (snapshot)
   {
     document.getElementById(snapshot.key).remove();
